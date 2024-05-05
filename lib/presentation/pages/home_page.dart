@@ -10,7 +10,7 @@ import 'package:sm_project/presentation/pages/patients_page.dart';
 import 'package:sm_project/presentation/pages/prescription_page.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
-
+//check commit
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 import 'package:sm_project/presentation/widgets/image_btn.dart';
 import 'package:sm_project/presentation/widgets/tile.dart';
