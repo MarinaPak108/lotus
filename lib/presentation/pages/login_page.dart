@@ -84,24 +84,22 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 16,
               ),
-              Center(
-                child: MyBtn(
-                  name: "Ввести имя",
-                  onPressed: isButtonActive
-                      ? () {
-                          if (stayLogged!) {
-                            saveAsLogged(stayLogged, _controller.text);
-                            global.navBottmBarIndex = 3;
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          }
-                          clickGetNameButton(_controller.text);
-                          setState(() {});
+              MyBtn(
+                name: "Ввести имя",
+                onPressed: isButtonActive
+                    ? () {
+                        if (stayLogged!) {
+                          saveAsLogged(stayLogged, _controller.text);
+                          global.navBottmBarIndex = 3;
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         }
-                      : null,
-                ),
+                        clickGetNameButton(_controller.text);
+                        setState(() {});
+                      }
+                    : null,
               ),
               const SizedBox(
                 height: 16,
