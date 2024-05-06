@@ -12,19 +12,21 @@ class MyCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.sizeOf(context).width / 10;
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: width * 0.1,
         ), //SizedBox
         Text(
           label,
-          style: const TextStyle(fontSize: 19.0, color: AppStyles.logoColor),
+          style: TextStyle(fontSize: width * 0.4, color: AppStyles.logoColor),
         ), //Text
-        const SizedBox(width: 10), //SizedBox
+        SizedBox(width: width * 0.1), //SizedBox
         /** Checkbox Widget **/
         Transform.scale(
-          scale: 1.5,
+          scale: width * 0.035,
           child: Checkbox(
               value: value,
               activeColor: AppStyles.logoColor,

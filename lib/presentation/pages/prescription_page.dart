@@ -89,6 +89,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 style: BorderStyle.solid,
                 width: height * 0.05)),
         child: DropdownButton<Post>(
+          menuMaxHeight: height * 4,
           isExpanded: true,
           //isDense: true,
           hint: const Text('Choose'),
@@ -107,9 +108,11 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           items: posts.map<DropdownMenuItem<Post>>((Post value) {
             return DropdownMenuItem<Post>(
               value: value,
-              child: Text(
-                "${value.id}_${value.title}",
-                style: TextStyle(fontSize: height * 0.3),
+              child: Flexible(
+                child: Text(
+                  "${value.id}_${value.title}",
+                  style: TextStyle(fontSize: height * 0.25),
+                ),
               ),
             );
           }).toList(),
