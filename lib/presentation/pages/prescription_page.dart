@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
@@ -66,8 +68,10 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                   child: MyCard(
                       fillWith: Text(
                     _selectedPost!.body,
-                    style:
-                        TextStyle(fontSize: height * 0.4, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: height * 0.4,
+                      color: Colors.white,
+                    ),
                   )),
                 ),
               );
@@ -99,7 +103,9 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           ),
           iconSize: 24,
           elevation: 16,
-          style: const TextStyle(color: Colors.deepPurple),
+          style: const TextStyle(
+            color: Colors.deepPurple,
+          ),
           onChanged: (Post? newValue) {
             setState(() {
               _selectedPost = newValue!;
@@ -109,9 +115,14 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
             return DropdownMenuItem<Post>(
               value: value,
               child: Flexible(
-                child: Text(
-                  "${value.id}_${value.title}",
-                  style: TextStyle(fontSize: height * 0.25),
+                child: LimitedBox(
+                  maxWidth: height * 2,
+                  child: Text(
+                    "${value.id}_${value.title}",
+                    maxLines: 2,
+                    style: TextStyle(fontSize: height * 0.3),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 class MyCheckBox extends StatelessWidget {
@@ -19,11 +20,19 @@ class MyCheckBox extends StatelessWidget {
         SizedBox(
           width: width * 0.1,
         ), //SizedBox
-        Text(
-          label,
-          style: TextStyle(fontSize: width * 0.4, color: AppStyles.logoColor),
+        LimitedBox(
+          maxWidth: width * 7,
+          child: Text(
+            maxLines: 2,
+            label,
+            style: TextStyle(
+              fontSize: width * 0.4,
+              color: AppStyles.logoColor,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ), //Text
-        SizedBox(width: width * 0.1), //SizedBox
+        SizedBox(width: width * 0.2), //SizedBox
         /** Checkbox Widget **/
         Transform.scale(
           scale: width * 0.035,
