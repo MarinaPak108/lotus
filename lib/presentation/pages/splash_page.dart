@@ -67,6 +67,8 @@ class _SplashState extends State<_Splash> {
 
   @override
   Widget build(BuildContext context) {
+    global.globalWidth = MediaQuery.sizeOf(context).height / 10;
+    global.globalHeight = MediaQuery.sizeOf(context).width / 10;
     return Scaffold(
         body: SizedBox(
             width: MediaQuery.sizeOf(context).width,
