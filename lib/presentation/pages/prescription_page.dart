@@ -84,7 +84,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
   }
 
   Widget buildDropBox(List<Post> posts, double height) => Container(
-        height: height * 1.5,
+        //height: height * 1.5,
         padding: EdgeInsets.all(height * 0.3),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(height * 0.4),
