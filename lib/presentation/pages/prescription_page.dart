@@ -84,7 +84,6 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
   }
 
   Widget buildDropBox(List<Post> posts, double height) => Container(
-        //height: height * 1.5,
         padding: EdgeInsets.all(height * 0.3),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(height * 0.4),
@@ -93,7 +92,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 style: BorderStyle.solid,
                 width: height * 0.05)),
         child: DropdownButton<Post>(
-          menuMaxHeight: height * 4,
+          menuMaxHeight: height * 5,
           isExpanded: true,
           //isDense: true,
           hint: const Text('Choose'),
@@ -114,16 +113,11 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           items: posts.map<DropdownMenuItem<Post>>((Post value) {
             return DropdownMenuItem<Post>(
               value: value,
-              child: Flexible(
-                child: LimitedBox(
-                  maxWidth: height * 2,
-                  child: Text(
-                    "${value.id}_${value.title}",
-                    maxLines: 2,
-                    style: TextStyle(fontSize: height * 0.3),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+              child: Text(
+                "${value.id}_${value.title}",
+                maxLines: 2,
+                style: TextStyle(fontSize: height * 0.2),
+                overflow: TextOverflow.ellipsis,
               ),
             );
           }).toList(),
