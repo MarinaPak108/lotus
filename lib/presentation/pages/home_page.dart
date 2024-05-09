@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/form_page.dart';
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   late SharedPreferences prefs;
   String nameUser = "+++";
   Future<List<Post>> posts = getPosts();
+  List<Visitor> visitors = global.visitors;
 
   getName() async {
     prefs = await SharedPreferences.getInstance();
@@ -51,6 +53,29 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     global.navBottmBarIndex = 2;
     getName();
+    global.visitors[0].age = countYear(global.visitors[0].birthday);
+    global.visitors[1].age = countYear(global.visitors[1].birthday);
+    global.visitors[2].age = countYear(global.visitors[2].birthday);
+    global.visitors[3].age = countYear(global.visitors[3].birthday);
+    global.visitors[4].age = countYear(global.visitors[4].birthday);
+    global.visitors[5].age = countYear(global.visitors[5].birthday);
+    global.visitors[6].age = countYear(global.visitors[6].birthday);
+    global.visitors[7].age = countYear(global.visitors[7].birthday);
+    global.visitors[8].age = countYear(global.visitors[8].birthday);
+    global.visitors[9].age = countYear(global.visitors[9].birthday);
+  }
+
+  countYear(DateTime birthday) {
+    int result = DateTime.now().year - birthday.year;
+    if (DateTime.now().month < birthday.month) {
+      return result - 1;
+    } else if (DateTime.now().month == birthday.month) {
+      if (DateTime.now().day < birthday.day) {
+        return result - 1;
+      }
+    } else {
+      return result;
+    }
   }
 
   @override

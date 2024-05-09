@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/card.dart';
+
+import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 import '../widgets/bottom_navigation.dart';
 
@@ -17,7 +18,7 @@ class PrescriptionPage extends StatefulWidget {
 }
 
 class _PrescriptionPageState extends State<PrescriptionPage> {
-  Post? _selectedPost;
+  Visitor? _selectedPost;
   Future<List<Post>> posts = getPosts();
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 return Text('${snapshot.error}');
               } else if (snapshot.hasData) {
                 final posts = snapshot.data!;
-                return buildDropBox(posts, height);
+                return buildDropBox(global.visitors, height);
               } else {
                 return const Text('Not post data');
               }
@@ -67,7 +68,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 child: SingleChildScrollView(
                   child: MyCard(
                       fillWith: Text(
-                    _selectedPost!.body,
+                    _selectedPost!.surname,
                     style: TextStyle(
                       fontSize: height * 0.4,
                       color: Colors.white,
@@ -83,7 +84,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
     );
   }
 
-  Widget buildDropBox(List<Post> posts, double height) => Container(
+  Widget buildDropBox(List<Visitor> visitors, double height) => Container(
         padding: EdgeInsets.all(height * 0.3),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(height * 0.4),
@@ -91,11 +92,11 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 color: AppStyles.logoComplimentaryColor2,
                 style: BorderStyle.solid,
                 width: height * 0.05)),
-        child: DropdownButton<Post>(
+        child: DropdownButton<Visitor>(
           menuMaxHeight: height * 5,
           isExpanded: true,
           //isDense: true,
-          hint: const Text('Choose'),
+          hint: const Text('Выберете пациента'),
           value: _selectedPost,
           icon: const Icon(
             Icons.arrow_drop_down_rounded,
@@ -105,16 +106,16 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           style: const TextStyle(
             color: Colors.deepPurple,
           ),
-          onChanged: (Post? newValue) {
+          onChanged: (Visitor? newValue) {
             setState(() {
               _selectedPost = newValue!;
             });
           },
-          items: posts.map<DropdownMenuItem<Post>>((Post value) {
-            return DropdownMenuItem<Post>(
+          items: visitors.map<DropdownMenuItem<Visitor>>((value) {
+            return DropdownMenuItem<Visitor>(
               value: value,
               child: Text(
-                "${value.id}_${value.title}",
+                "${value.surname}_${value.name}",
                 maxLines: 2,
                 style: TextStyle(fontSize: height * 0.2),
                 overflow: TextOverflow.ellipsis,
