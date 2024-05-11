@@ -6,12 +6,12 @@ import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/form_page.dart';
 import 'package:sm_project/presentation/pages/my_page.dart';
-import 'package:sm_project/presentation/pages/patient_card.dart';
+import 'package:sm_project/presentation/pages/patient_card_detailed.dart';
 import 'package:sm_project/presentation/pages/patients_page.dart';
 import 'package:sm_project/presentation/pages/prescription_page.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
-//check commit //check for subbranch
+
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 import 'package:sm_project/presentation/widgets/image_btn.dart';
 import 'package:sm_project/presentation/widgets/tile.dart';
@@ -63,6 +63,8 @@ class _HomePageState extends State<HomePage> {
     global.visitors[7].age = countYear(global.visitors[7].birthday);
     global.visitors[8].age = countYear(global.visitors[8].birthday);
     global.visitors[9].age = countYear(global.visitors[9].birthday);
+    global.visitors[0].doctors = [global.doctors[0], global.doctors[1]];
+    global.visitors[1].doctors = [global.doctors[2]];
   }
 
   countYear(DateTime birthday) {
@@ -112,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                       return Text('${snapshot.error}');
                     } else if (snapshot.hasData) {
                       final posts = snapshot.data!;
-                      return buildPosts(posts);
+                      return buildPosts(visitors);
                     } else {
                       return const Text('Not post data');
                     }
@@ -123,22 +125,23 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildPosts(List<Post> posts) => ListView.separated(
+  Widget buildPosts(List<Visitor> visits) => ListView.separated(
       scrollDirection: Axis.vertical,
       padding: const EdgeInsets.all(3),
-      itemCount: posts.length,
+      itemCount: visits.length,
       separatorBuilder: (context, index) {
         return const SizedBox(height: 1);
       },
       itemBuilder: (context, index) {
-        final pst = posts[index];
+        final visit = visits[index];
         return MyTile(
             icn: Icons.person_2_rounded,
-            page: PatientCardPage(
-              pst: pst,
+            color: visit.getColor(),
+            page: PatientCardDetailsPage(
+              visitor: visit,
             ),
-            title: pst.userId.toString(),
-            subTitle: pst.title,
+            title: "${visit.surname} ${visit.name}",
+            subTitle: "born on :${visit.getBirthDate()}, age: ${visit.age}",
             actionIcn: Icons.navigate_next);
       });
 

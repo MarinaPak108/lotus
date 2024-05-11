@@ -7,6 +7,7 @@ class MyTile extends StatelessWidget {
   final String title;
   final String subTitle;
   final IconData actionIcn;
+  final Color color;
 
   const MyTile(
       {Key? key,
@@ -14,7 +15,8 @@ class MyTile extends StatelessWidget {
       required this.page,
       required this.title,
       required this.subTitle,
-      required this.actionIcn})
+      required this.actionIcn,
+      this.color = Colors.white})
       : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class MyTile extends StatelessWidget {
               Icon(
                 icn,
                 size: height * 0.5,
-                color: Colors.white,
+                color: color,
               ),
               SizedBox(
                 width: height * 0.1,

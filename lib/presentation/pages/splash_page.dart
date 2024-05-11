@@ -72,14 +72,9 @@ class _SplashState extends State<_Splash> {
     Doctor(id: 1, surname: "Huff", field: "Cardiology", name: "Hakeem"),
     Doctor(id: 2, surname: "Bernal", field: "Pediatrics", name: "Bowen")
   ];
-
   List<Visitor> vists = [
     Visitor(
-      id: 0,
-      name: "Avah",
-      surname: "Pace",
-      birthday: DateTime(2003, 06, 12),
-    ),
+        id: 0, name: "Avah", surname: "Pace", birthday: DateTime(2003, 06, 12)),
     Visitor(
         id: 1,
         name: "Freyja",
@@ -96,10 +91,11 @@ class _SplashState extends State<_Splash> {
         surname: "Rangel",
         birthday: DateTime(1953, 04, 09)),
     Visitor(
-        id: 4,
-        name: "Addyson",
-        surname: "Wilkins",
-        birthday: DateTime(1974, 09, 18)),
+      id: 4,
+      name: "Addyson",
+      surname: "Wilkins",
+      birthday: DateTime(1974, 09, 18),
+    ),
     Visitor(
         id: 5,
         name: "Gustavo",
@@ -113,10 +109,11 @@ class _SplashState extends State<_Splash> {
     Visitor(
         id: 7, name: "Ruth", surname: "Hill", birthday: DateTime(1934, 01, 07)),
     Visitor(
-        id: 8,
-        name: "Murphy",
-        surname: "Weeks",
-        birthday: DateTime(2013, 03, 08)),
+      id: 8,
+      name: "Murphy",
+      surname: "Weeks",
+      birthday: DateTime(2013, 03, 08),
+    ),
     Visitor(
         id: 9,
         name: "Jaylen",

@@ -21,25 +21,27 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   bool isButtonActive = false;
   final List<QuestionForm> _questions = [
-    QuestionForm(questionText: "Q1. Who created Flutter?", answers: [
-      Answer(id: 0, answer: 'Facebook'),
-      Answer(id: 1, answer: 'Adobe'),
-      Answer(id: 2, answer: 'Google'),
-      Answer(id: 3, answer: 'Microsoft')
+    QuestionForm(questionText: "Цель обращения", answers: [
+      Answer(id: 0, answer: 'обращение по поводу заболевания'),
+      Answer(id: 1, answer: 'профилактическая и иная'),
+      Answer(id: 2, answer: 'неотложная помощь'),
     ]),
-    QuestionForm(questionText: "Q2. What is Flutter?", answers: [
-      Answer(id: 4, answer: 'Android Development Kit'),
-      Answer(id: 5, answer: 'IOS Development Kit'),
-      Answer(id: 6, answer: 'Web Development Kit'),
-      Answer(id: 7, answer: 'Microsoft')
+    QuestionForm(questionText: "Вид обращения", answers: [
+      Answer(id: 4, answer: 'разовое посещение по поводу заболевания'),
+      Answer(id: 5, answer: 'диспансерное наблюдение'),
+      Answer(id: 6, answer: 'медосмотр'),
+      Answer(id: 7, answer: 'диспансеризация'),
+      Answer(id: 10, answer: "профосмотр"),
+      Answer(id: 11, answer: "посещение центра здоровья"),
+      Answer(id: 12, answer: "оформление медицинских документов и справок"),
+      Answer(id: 13, answer: "паллиативная помощь"),
+      Answer(id: 14, answer: "реабилитация"),
     ]),
-    QuestionForm(
-        questionText:
-            "Q5. Is Flutter for Web and Desktop available in stable version?",
-        answers: [
-          Answer(id: 8, answer: 'yes'),
-          Answer(id: 9, answer: 'no'),
-        ])
+    QuestionForm(questionText: "Уровень оказания медицинской помощи", answers: [
+      Answer(id: 8, answer: 'специализированный'),
+      Answer(id: 9, answer: 'территориальный'),
+      Answer(id: 15, answer: 'межмуниципальный'),
+    ])
   ];
   late List<bool> isChecked = List.filled(_questions.length, false);
   Future<List<Post>> posts = getPosts();
