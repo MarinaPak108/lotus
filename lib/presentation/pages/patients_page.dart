@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/patient_card.dart';
+import 'package:sm_project/presentation/pages/patient_card_detailed.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
 import 'package:sm_project/presentation/widgets/card.dart';
@@ -30,19 +32,22 @@ class _PatientsPageState extends State<PatientsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.sizeOf(context).width / 10;
+    double width = global.globalWidth;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Column(
         children: [
+          //obshaja informacija o kolichestwe pacientow, teh kotorie doljni
+          //eshe zapolnit formu i teh kto eshe ne popal na priem
           MyCard(
               fillWith: SizedBox(
             width: width * 9,
-            child: Text("${global.userId}, welcome to LotusMedi App",
-                style: const TextStyle(color: Colors.white, fontSize: 30)),
+            child: Text(
+                "Количество пациентов: ${global.visitors.length}\nОжидание на заполнение формы: ${global.visitors.where((element) => element.doctor == null).length}\nОжидание на прием:${global.visitors.where((element) => element.prescription == null).length}",
+                style: TextStyle(color: Colors.white, fontSize: width * 0.3)),
           )),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: width * 0.5,
           ),
           Expanded(
               child: FutureBuilder<List<Post>>(
@@ -57,7 +62,7 @@ class _PatientsPageState extends State<PatientsPage> {
                       return Text('${snapshot.error}');
                     } else if (snapshot.hasData) {
                       final posts = snapshot.data!;
-                      return buildPosts(posts);
+                      return buildPosts(global.visitors);
                     } else {
                       return const Text('Not post data');
                     }
@@ -68,22 +73,24 @@ class _PatientsPageState extends State<PatientsPage> {
     );
   }
 
-  Widget buildPosts(List<Post> posts) => ListView.separated(
+  Widget buildPosts(List<Visitor> visits) => ListView.separated(
       scrollDirection: Axis.vertical,
       padding: const EdgeInsets.all(3),
-      itemCount: posts.length,
+      itemCount: visits.length,
       separatorBuilder: (context, index) {
         return const SizedBox(height: 1);
       },
       itemBuilder: (context, index) {
-        final pst = posts[index];
+        final visit = visits[index];
         return MyTile(
             icn: Icons.person_2_rounded,
-            page: PatientCardPage(
-              pst: pst,
+            color: visit.getColor(),
+            page: PatientCardDetailsPage(
+              visitor: visit,
             ),
-            title: pst.userId.toString(),
-            subTitle: pst.title,
+            title: "${visit.surname} ${visit.name}\n${visit.fathersName}",
+            subTitle:
+                "дата рождения:${visit.getBirthDate()}\nвозраст:${visit.age}",
             actionIcn: Icons.navigate_next);
       });
 }

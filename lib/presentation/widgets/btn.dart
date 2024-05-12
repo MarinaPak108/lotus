@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
+import 'package:sm_project/domain/global_var/global_settings.dart';
+import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class MyBtn extends StatelessWidget {
   final String name;
+  final double? width;
   final void Function()? onPressed;
 
-  const MyBtn({Key? key, required this.name, this.onPressed}) : super(key: key);
+  const MyBtn({Key? key, required this.name, this.onPressed, this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width / 2.5,
+      width: global.globalWidth * 3.5,
       height: MediaQuery.sizeOf(context).height / 10,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(

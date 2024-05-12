@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/api/dto/answer_dto.dart';
+import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/dto/questionForm_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
@@ -45,6 +46,8 @@ class _FormPageState extends State<FormPage> {
   ];
   late List<bool> isChecked = List.filled(_questions.length, false);
   Future<List<Post>> posts = getPosts();
+  List<String>? questions;
+  List<String>? answers;
   @override
   void initState() {
     super.initState();
@@ -56,7 +59,7 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height / 10;
+    double height = global.globalHeight;
     bool isButtonActive = isChecked.every((e) => e == true);
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -107,6 +110,8 @@ class _FormPageState extends State<FormPage> {
                                   }
                                   qst.answers[idx].isSelected = value;
                                   isChecked[index] = true;
+                                  questions?.add(qst.questionText);
+                                  answers?.add(qst.answers[idx].answer);
                                 });
                               },
                             ),
@@ -124,6 +129,8 @@ class _FormPageState extends State<FormPage> {
                   ? () {
                       if (isButtonActive) {
                         global.navBottmBarIndex = 3;
+                        global.visitors[global.currentVisitor.id].results =
+                            FormResults(answer: answers, question: questions);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -7,24 +7,26 @@ class Visitor {
   final int id;
   final String name;
   final String surname;
+  final String fathersName;
   final DateTime birthday;
   int? age;
-  List<Doctor>? doctors;
+  Doctor? doctor;
   FormResults? results;
-  List<String>? prescription;
+  String? prescription;
 
   Visitor(
       {required this.id,
       required this.name,
       required this.surname,
+      required this.fathersName,
       required this.birthday,
       this.age,
-      this.doctors,
+      this.doctor,
       this.results,
       this.prescription});
 
   getDoctors() {
-    if (doctors == null || doctors!.isEmpty) {
+    if (doctor == null) {
       return "в ожидании на посещение врача";
     } else {
       return "";
@@ -36,23 +38,22 @@ class Visitor {
   }
 
   getColor() {
-    if (doctors != null) {
-      return const Color.fromARGB(248, 243, 26, 26);
+    if (prescription != null) {
+      return const Color.fromARGB(248, 40, 230, 53);
     } else if (results != null) {
       return const Color.fromARGB(249, 217, 230, 40);
-    } else if (prescription != null &&
-        doctors!.length == prescription!.length) {
-      return const Color.fromARGB(248, 40, 230, 53);
+    } else if (doctor != null) {
+      return const Color.fromARGB(248, 243, 26, 26);
     } else {
       return const Color.fromRGBO(243, 245, 245, 0.973);
     }
   }
 
   getResults() {
-    if (results == null || results!.question!.isEmpty) {
+    if (results == null) {
       return 0;
     } else {
-      return results!.question!.length;
+      return results?.question?.length;
     }
   }
 }

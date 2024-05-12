@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sm_project/api/dto/visitor_dto.dart';
-import 'package:sm_project/domain/global_var/global_settings.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
 import 'package:sm_project/presentation/widgets/card.dart';
+
+import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class PatientCardDetailsPage extends StatelessWidget {
   final Visitor visitor;
@@ -12,50 +15,59 @@ class PatientCardDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = global.globalWidth;
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: Center(
-          child: Column(
+      body: Column(
         children: [
-          MyCard(
-              fillWith: Text(
-            "${visitor.surname} ${visitor.name} возраст: ${visitor.age}",
-            style: const TextStyle(color: Colors.white, fontSize: 30),
-          )),
+          SizedBox(
+            width: width * 7.5,
+            height: global.globalHeight * 4.5,
+            child: MyCard(
+                fillWith: Text(
+              "${visitor.surname} ${visitor.name} ${visitor.fathersName}\nдата рождения:${visitor.getBirthDate()}\nвозраст: ${visitor.age}",
+              style: TextStyle(color: Colors.white, fontSize: width * 0.4),
+            )),
+          ),
           const SizedBox(
             height: 5.0,
           ),
-          MyCard(
-              fillWith: (visitor.getDoctors() == "")
-                  ? Text(
-                      "ФИО врача: \n${visitor.doctors!.last.surname}  ${visitor.doctors!.last.name}\nСпециализация: ${visitor.doctors!.last.field}",
-                      style: const TextStyle(color: Colors.white, fontSize: 30),
-                    )
-                  : Text(
-                      "возраст: ${visitor.age}\nврачи: ${visitor.getDoctors()}",
-                      style:
-                          const TextStyle(color: Colors.white, fontSize: 30))),
+          SizedBox(
+            width: width * 7.5,
+            child: MyCard(
+                fillWith: (visitor.getDoctors() == "")
+                    ? Text(
+                        "ФИО врача: \n${visitor.doctor!.surname}  ${visitor.doctor!.name}\nСпециализация: ${visitor.doctor!.field}",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: width * 0.3),
+                      )
+                    : Text(
+                        "возраст: ${visitor.age}\nврачи: ${visitor.getDoctors()}",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: width * 0.3))),
+          ),
           const SizedBox(
             height: 5.0,
           ),
-          MyCard(
-              fillWith: (visitor.getResults() != 0)
-                  ? ListView.builder(
-                      itemCount: visitor.getResults(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          "вопрос: ${visitor.results!.question![index]}\nответ: ${visitor.results!.answer![index]}",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 30),
-                        );
-                      },
-                    )
-                  : const Text(
-                      "Формуляр еще не заполнен",
-                      style: const TextStyle(color: Colors.white, fontSize: 30),
-                    ))
+          SizedBox(
+            width: width * 7.5,
+            child: MyCard(
+                fillWith: (visitor.getResults() != 0)
+                    ? Text(
+                        "Формуляр заполнен",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: global.globalWidth * 0.3),
+                      )
+                    : Text(
+                        "Формуляр еще не заполнен",
+                        style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: global.globalWidth * 0.3),
+                      )),
+          ),
         ],
-      )),
+      ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }

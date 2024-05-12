@@ -57,11 +57,12 @@ class MyTile extends StatelessWidget {
           subtitle: Row(
             children: [
               SizedBox(
-                width: width * 1,
+                width: width * 2,
               ),
               Expanded(
                 child: Text(
                   subTitle,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: height * 0.2,
                       fontWeight: FontWeight.w700,

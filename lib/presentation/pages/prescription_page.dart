@@ -50,7 +50,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               } else if (snapshot.hasData) {
-                final posts = snapshot.data!;
+                //final posts = snapshot.data!;
                 return buildDropBox(global.visitors, height);
               } else {
                 return const Text('Not post data');
