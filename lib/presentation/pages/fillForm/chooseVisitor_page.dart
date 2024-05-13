@@ -20,10 +20,15 @@ class ChooseVisitorPage extends StatefulWidget {
 }
 
 class _ChooseVisitorState extends State<ChooseVisitorPage> {
+  bool isButtonActive = false;
+  List<bool> isChecked = [false, false];
   Visitor? _selectedPost;
   Doctor? _selectedDoctor;
   List<Doctor> doctors = global.doctors;
   List<bool> isDoctorActive = [false, false, false];
+  //otbiraem pacientwo u kotorih eshe net recepta:
+  Iterable<Visitor> visitors =
+      global.visitors.where((element) => element.prescription == null);
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,11 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
   @override
   Widget build(BuildContext context) {
     double height = global.globalHeight;
+    //to activate send button
+    if (isDoctorActive.where((x) => x == true).length == 1) {
+      isChecked[1] = true;
+    }
+    bool isButtonActive = isChecked.every((e) => e == true);
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -54,7 +64,7 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
             //patsienti
             MyDropDownMenu(
               selectedPost: _selectedPost,
-              visitors: global.visitors,
+              visitors: visitors,
               onChanged: (Visitor? newValue) {
                 setState(() {
                   isDoctorActive = [false, false, false];
@@ -63,6 +73,8 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
                     isDoctorActive[newValue.doctor!.id] = true;
                   }
                 });
+                //to activate send button
+                isChecked[0] = true;
               },
             ),
             SizedBox(
@@ -155,20 +167,22 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
             MyBtn(
                 width: global.globalWidth * 5,
                 name: "Заполнить форму",
-                onPressed: () {
-                  //for current mobile: add current doc and patient to global vars
-                  global.currentVisitor = _selectedPost!;
-                  global.currentVisitor.doctor = _selectedDoctor;
-                  //for db:  assign doctor to patient and patient to doctor for db
-                  global.visitors[global.currentVisitor.id].doctor =
-                      _selectedDoctor;
-                  global.doctors[_selectedDoctor!.id].patients
-                      ?.add(global.currentVisitor);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FormPage()));
-                })
+                onPressed: isButtonActive
+                    ? () {
+                        //for current mobile: add current doc and patient to global vars
+                        global.currentVisitor = _selectedPost!;
+                        global.currentVisitor.doctor = _selectedDoctor;
+                        //for db:  assign doctor to patient and patient to doctor for db
+                        global.visitors[global.currentVisitor.id].doctor =
+                            _selectedDoctor;
+                        global.doctors[_selectedDoctor!.id].patients
+                            ?.add(global.currentVisitor);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FormPage()));
+                      }
+                    : null)
           ],
         ),
       ),

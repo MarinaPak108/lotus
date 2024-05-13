@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 import 'package:sm_project/presentation/pages/fillForm/chooseVisitor_page.dart';
-import 'package:sm_project/presentation/pages/fillForm/form_page.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/pages/my_page.dart';
 import 'package:sm_project/presentation/pages/patients_page.dart';

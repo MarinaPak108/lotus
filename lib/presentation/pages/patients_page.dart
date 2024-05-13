@@ -3,7 +3,6 @@ import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
-import 'package:sm_project/presentation/pages/patient_card.dart';
 import 'package:sm_project/presentation/pages/patient_card_detailed.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
@@ -61,7 +60,7 @@ class _PatientsPageState extends State<PatientsPage> {
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      final posts = snapshot.data!;
+                      //final posts = snapshot.data!;
                       return buildPosts(global.visitors);
                     } else {
                       return const Text('Not post data');

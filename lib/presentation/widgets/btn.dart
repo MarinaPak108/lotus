@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
-import 'package:sm_project/domain/global_var/global_settings.dart';
+
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class MyBtn extends StatelessWidget {

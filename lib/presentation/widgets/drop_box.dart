@@ -6,7 +6,7 @@ import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class MyDropDownMenu extends StatelessWidget {
   final Visitor? selectedPost;
-  final List<Visitor> visitors;
+  final Iterable<Visitor> visitors;
   final Function(Visitor?)? onChanged;
 
   const MyDropDownMenu(
