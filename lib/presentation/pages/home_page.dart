@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
@@ -54,52 +53,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     global.navBottmBarIndex = 2;
     getName();
-    global.visitors[0].age = countYear(global.visitors[0].birthday);
-    global.visitors[1].age = countYear(global.visitors[1].birthday);
-    global.visitors[2].age = countYear(global.visitors[2].birthday);
-    global.visitors[3].age = countYear(global.visitors[3].birthday);
-    global.visitors[4].age = countYear(global.visitors[4].birthday);
-    global.visitors[5].age = countYear(global.visitors[5].birthday);
-    global.visitors[6].age = countYear(global.visitors[6].birthday);
-    global.visitors[7].age = countYear(global.visitors[7].birthday);
-    global.visitors[8].age = countYear(global.visitors[8].birthday);
-    global.visitors[9].age = countYear(global.visitors[9].birthday);
-    global.visitors[0].doctor = global.doctors[0];
-    global.visitors[1].doctor = global.doctors[2];
-    global.visitors[2].doctor = global.doctors[1];
-    global.visitors[0].results = FormResults(question: [
-      "Цель обращения",
-      "Вид обращения",
-      "Уровень оказания медицинской помощи"
-    ], answer: [
-      'профилактическая и иная',
-      'медосмотр',
-      'территориальный'
-    ]);
-    global.visitors[2].results = FormResults(question: [
-      "Цель обращения",
-      "Вид обращения",
-      "Уровень оказания медицинской помощи"
-    ], answer: [
-      'профилактическая и иная',
-      'медосмотр',
-      'территориальный'
-    ]);
-    global.visitors[2].prescription =
-        "принимать лекарство 2 раза в день по 1 таблетке";
-  }
-
-  countYear(DateTime birthday) {
-    int result = DateTime.now().year - birthday.year;
-    if (DateTime.now().month < birthday.month) {
-      return result - 1;
-    } else if (DateTime.now().month == birthday.month) {
-      if (DateTime.now().day < birthday.day) {
-        return result - 1;
-      }
-    } else {
-      return result;
-    }
   }
 
   @override
@@ -163,7 +116,7 @@ class _HomePageState extends State<HomePage> {
             page: PatientCardDetailsPage(
               visitor: visit,
             ),
-            title: "${visit.surname} ${visit.name}\n${visit.fathersName}",
+            title: "${visit.surname} ${visit.name} ${visit.fathersName}",
             subTitle: "",
             actionIcn: Icons.navigate_next);
       });
@@ -183,7 +136,12 @@ class _HomePageState extends State<HomePage> {
     "assets/img/fillForm.jpg",
     "assets/img/prescription.jpg"
   ];
-  final List listNames = ["MyRoom", 'WaitingLine', "Form", "Prescription"];
+  final List listNames = [
+    "личный\nкабинет",
+    'список\nожидания',
+    "форма для\nзаполнения",
+    "рецепт"
+  ];
 
   Widget buildCard(int index) => Row(
         mainAxisSize: MainAxisSize.min,

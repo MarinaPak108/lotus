@@ -51,7 +51,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
       backgroundColor: AppStyles.backgroundLogoColor,
       title: const Text(
-        "MediLotus Help App",
+        "MediLotus Help",
         style: TextStyle(
             color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
       ),

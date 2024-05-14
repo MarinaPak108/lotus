@@ -69,12 +69,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "мой кабинет"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "кабинет"),
         BottomNavigationBarItem(icon: Icon(Icons.people), label: "очередь"),
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "главная"),
         BottomNavigationBarItem(icon: Icon(Icons.addchart), label: "формуляр"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.edit_document), label: "выписка")
+            icon: Icon(Icons.edit_document), label: "рецепт")
       ],
     );
   }

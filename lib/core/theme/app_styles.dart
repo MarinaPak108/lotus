@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:sm_project/domain/global_var/global_settings.dart' as global;
+
 class AppStyles {
   static const activeMainC = Color.fromARGB(255, 44, 179, 48);
   static const activeLightC = Colors.green;
@@ -16,6 +18,12 @@ class AppStyles {
 
   static const labelFontSize = 25;
   static const inputInfoFontSize = 28;
+
+  double height = global.globalHeight;
+  double width = global.globalWidth;
+
+  static double title1 = global.globalHeight * 0.4;
+  static double text = global.globalHeight * 0.3;
 
   static const borderActive =
       OutlineInputBorder(borderSide: BorderSide(color: activeMainC, width: 3));

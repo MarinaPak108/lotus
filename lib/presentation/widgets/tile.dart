@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 class MyTile extends StatelessWidget {
@@ -38,18 +40,23 @@ class MyTile extends StatelessWidget {
             children: [
               Icon(
                 icn,
-                size: height * 0.5,
+                size: width,
                 color: color,
               ),
               SizedBox(
-                width: height * 0.1,
+                width: width * 0.1,
               ),
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: height * 0.3,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              SizedBox(
+                width: width * 6.2,
+                child: Text(
+                  title,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: height * 0.25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
             ],
           ),

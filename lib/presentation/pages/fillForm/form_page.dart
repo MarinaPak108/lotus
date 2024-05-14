@@ -3,6 +3,7 @@ import 'package:sm_project/api/dto/answer_dto.dart';
 import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/dto/questionForm_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
@@ -85,7 +86,7 @@ class _FormPageState extends State<FormPage> {
                       children: [
                         Text(qst.questionText,
                             style: TextStyle(
-                                fontSize: height * 0.4,
+                                fontSize: height * 0.5,
                                 color: AppStyles.logoColor)),
                         const SizedBox(height: 5.0),
                         Column(
@@ -98,7 +99,7 @@ class _FormPageState extends State<FormPage> {
                               title: Text(
                                 qst.answers[idx].answer,
                                 style: TextStyle(
-                                  fontSize: height * 0.3,
+                                  fontSize: height * 0.4,
                                   color: AppStyles.logoComplimentaryColor2,
                                 ),
                               ),
@@ -124,13 +125,19 @@ class _FormPageState extends State<FormPage> {
         Padding(
           padding: EdgeInsets.all(height * 0.1),
           child: MyBtn(
-              name: "Send",
+              name: "Сохранить",
               onPressed: isButtonActive
                   ? () {
                       if (isButtonActive) {
                         global.navBottmBarIndex = 3;
                         global.visitors[global.currentVisitor.id].results =
                             FormResults(answer: answers, question: questions);
+                        global.currentVisitor = Visitor(
+                            id: -1,
+                            name: "",
+                            surname: "",
+                            fathersName: "",
+                            birthday: DateTime(0000, 00, 00));
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -19,7 +19,8 @@ class MyImageBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height / 10;
+    double height = global.globalHeight;
+    double width = global.globalWidth;
     return Material(
       color: AppStyles.logoColor,
       elevation: height * 0.1,
@@ -38,16 +39,17 @@ class MyImageBtn extends StatelessWidget {
               image: AssetImage(
                 link,
               ),
-              height: height * 3,
-              width: height * 3,
+              height: height * 5,
+              width: width * 2.5,
               fit: BoxFit.cover,
             ),
             SizedBox(
               height: height * 0.1,
             ),
             Text(
+              textAlign: TextAlign.center,
               label,
-              style: const TextStyle(fontSize: 30, color: Colors.white),
+              style: TextStyle(fontSize: AppStyles.title1, color: Colors.white),
             ),
             SizedBox(
               height: height * 0.1,

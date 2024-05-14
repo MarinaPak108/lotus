@@ -6,9 +6,9 @@ import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/btn.dart';
-import 'package:sm_project/presentation/widgets/card.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
+import 'package:sm_project/presentation/widgets/drop_box.dart';
 import 'package:sm_project/presentation/widgets/input_field.dart';
 
 import '../widgets/bottom_navigation.dart';
@@ -69,7 +69,15 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
                 return Text('${snapshot.error}');
               } else if (snapshot.hasData) {
                 //final posts = snapshot.data!;
-                return buildDropBox(visitors, height);
+                return MyDropDownMenu(
+                  selectedPost: _selectedPost,
+                  visitors: visitors,
+                  onChanged: (Visitor? newValue) {
+                    setState(() {
+                      _selectedPost = newValue!;
+                    });
+                  },
+                );
               } else {
                 return const Text('Not post data');
               }
@@ -98,7 +106,7 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
           Padding(
             padding: EdgeInsets.all(height * 0.1),
             child: MyBtn(
-                name: "Сохранить",
+                name: "Завершить",
                 onPressed: isActive
                     ? () {
                         _selectedPost?.prescription = _controller.text;
@@ -114,48 +122,4 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
-
-  Widget buildDropBox(Iterable<Visitor> visitors, double height) => Container(
-        padding: EdgeInsets.all(height * 0.3),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(height * 0.4),
-            border: Border.all(
-                color: AppStyles.logoComplimentaryColor2,
-                style: BorderStyle.solid,
-                width: height * 0.05)),
-        child: DropdownButton<Visitor>(
-          menuMaxHeight: height * 5,
-          isExpanded: true,
-          //isDense: true,
-          hint: Text(
-            'Выберете пациента',
-            style: TextStyle(fontSize: height * 0.4),
-          ),
-          value: _selectedPost,
-          icon: const Icon(
-            Icons.arrow_drop_down_rounded,
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: const TextStyle(
-            color: Colors.deepPurple,
-          ),
-          onChanged: (Visitor? newValue) {
-            setState(() {
-              _selectedPost = newValue!;
-            });
-          },
-          items: visitors.map<DropdownMenuItem<Visitor>>((value) {
-            return DropdownMenuItem<Visitor>(
-              value: value,
-              child: Text(
-                "${value.surname}_${value.name}",
-                maxLines: 2,
-                style: TextStyle(fontSize: height * 0.4),
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          }).toList(),
-        ),
-      );
 }

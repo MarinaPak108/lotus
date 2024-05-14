@@ -20,11 +20,11 @@ class PatientCardDetailsPage extends StatelessWidget {
         children: [
           SizedBox(
             width: width * 7.5,
-            height: global.globalHeight * 4.5,
+            //height: global.globalHeight * 4.5,
             child: MyCard(
                 fillWith: Text(
               "${visitor.surname} ${visitor.name} ${visitor.fathersName}\nдата рождения:${visitor.getBirthDate()}\nвозраст: ${visitor.age}",
-              style: TextStyle(color: Colors.white, fontSize: width * 0.4),
+              style: TextStyle(color: Colors.white, fontSize: width * 0.3),
             )),
           ),
           const SizedBox(
@@ -46,42 +46,48 @@ class PatientCardDetailsPage extends StatelessWidget {
           const SizedBox(
             height: 5.0,
           ),
-          SizedBox(
-            width: width * 7.5,
-            child: MyCard(
-                fillWith: (visitor.getResults() != 0)
-                    ? Text(
-                        "Формуляр заполнен",
-                        style: TextStyle(
-                            color: Colors.green,
-                            fontSize: global.globalWidth * 0.3,
-                            fontWeight: FontWeight.w800),
-                      )
-                    : Text(
-                        "Формуляр еще не заполнен",
-                        style: TextStyle(
-                            color: Colors.yellow,
-                            fontSize: global.globalWidth * 0.3),
-                      )),
-          ),
-          SizedBox(
-            width: width * 7.5,
-            child: MyCard(
-                fillWith: (visitor.prescription == null)
-                    ? Text(
-                        "рецепт еще не выписан",
-                        style: TextStyle(
-                            color: Colors.yellow,
-                            fontSize: global.globalWidth * 0.3,
-                            fontWeight: FontWeight.w800),
-                      )
-                    : Text(
-                        "Рецепт: ${visitor.prescription}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: global.globalWidth * 0.3),
-                      )),
-          ),
+          Expanded(
+              child: ListView(
+            children: [
+              //formular i recept ot wracha
+              SizedBox(
+                width: width * 7.5,
+                child: MyCard(
+                    fillWith: (visitor.getResults() != 0)
+                        ? Text(
+                            "Формуляр заполнен",
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontSize: global.globalWidth * 0.3,
+                                fontWeight: FontWeight.w800),
+                          )
+                        : Text(
+                            "Формуляр еще не заполнен",
+                            style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: global.globalWidth * 0.3),
+                          )),
+              ),
+              SizedBox(
+                width: width * 7.5,
+                child: MyCard(
+                    fillWith: (visitor.prescription == null)
+                        ? Text(
+                            "рецепт еще не выписан",
+                            style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: global.globalWidth * 0.3,
+                                fontWeight: FontWeight.w800),
+                          )
+                        : Text(
+                            "Рецепт: ${visitor.prescription}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: global.globalWidth * 0.3),
+                          )),
+              ),
+            ],
+          ))
         ],
       ),
       bottomNavigationBar: const CustomBottomNavBar(),

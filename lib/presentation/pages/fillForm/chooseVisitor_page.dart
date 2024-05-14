@@ -27,8 +27,9 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
   List<Doctor> doctors = global.doctors;
   List<bool> isDoctorActive = [false, false, false];
   //otbiraem pacientwo u kotorih eshe net recepta:
-  Iterable<Visitor> visitors =
-      global.visitors.where((element) => element.prescription == null);
+  Iterable<Visitor> visitors = global.visitors.where((element) =>
+      (element.prescription == null && element.doctor == null) ||
+      (global.currentVisitor.id != -1 && element == global.currentVisitor));
   @override
   void initState() {
     super.initState();
@@ -36,11 +37,18 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
     //to on budet wiswechiwatsja w dropbox
     if (global.currentVisitor.id != -1) {
       _selectedPost = global.currentVisitor;
+      //first field for patients is active
+      setState(() {
+        isChecked[0] = true;
+      });
       //esli k pacientu uje prikleplen doctor,
       //to on toje budet wiswechiwatsja uje w checkbox
       if (global.currentVisitor.doctor != null) {
         _selectedDoctor = global.currentVisitor.doctor;
-        isDoctorActive[_selectedDoctor!.id] = true;
+        //field for doctors is partly activated
+        setState(() {
+          isDoctorActive[_selectedDoctor!.id] = true;
+        });
       }
     }
   }
@@ -56,7 +64,7 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(height * 0.5),
+        padding: EdgeInsets.all(height * 0.2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,7 +90,7 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
             ),
             //vrachi
             SizedBox(
-              height: height * 7,
+              height: height * 8,
               child: Column(
                 children: [
                   MyCard(
@@ -172,11 +180,17 @@ class _ChooseVisitorState extends State<ChooseVisitorPage> {
                         //for current mobile: add current doc and patient to global vars
                         global.currentVisitor = _selectedPost!;
                         global.currentVisitor.doctor = _selectedDoctor;
+                        print(global.currentVisitor.surname);
+                        print(global.currentVisitor.doctor?.surname);
                         //for db:  assign doctor to patient and patient to doctor for db
                         global.visitors[global.currentVisitor.id].doctor =
                             _selectedDoctor;
-                        global.doctors[_selectedDoctor!.id].patients
-                            ?.add(global.currentVisitor);
+                        //add patient to doctor list if not already exist:
+                        if (!global.doctors[_selectedDoctor!.id].patients!
+                            .contains(global.currentVisitor)) {
+                          global.doctors[_selectedDoctor!.id].patients!
+                              .add(global.currentVisitor);
+                        }
                         Navigator.push(
                             context,
                             MaterialPageRoute(
