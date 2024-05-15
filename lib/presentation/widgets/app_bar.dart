@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/login_page.dart';
@@ -50,10 +51,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ),
       backgroundColor: AppStyles.backgroundLogoColor,
-      title: const Text(
+      title: Text(
         "MediLotus Help",
-        style: TextStyle(
-            color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+        style: GoogleFonts.lobster(
+          color: Colors.white,
+          fontSize: 30,
+        ),
       ),
       actions: [
         IconButton(

@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
@@ -9,6 +11,7 @@ class MyInputField extends StatelessWidget {
   final bool isPwdVisible;
   final IconButton? icn;
   final int lines;
+  final bool isLatinOnly;
 
   const MyInputField(
       {Key? key,
@@ -16,6 +19,7 @@ class MyInputField extends StatelessWidget {
       this.ctrl,
       this.isPwdVisible = false,
       this.lines = 1,
+      this.isLatinOnly = false,
       this.icn})
       : super(key: key);
 
@@ -25,6 +29,11 @@ class MyInputField extends StatelessWidget {
     return TextField(
       maxLines: lines,
       obscureText: isPwdVisible,
+      inputFormatters: (isLatinOnly)
+          ? <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
+            ]
+          : null,
       style:
           const TextStyle(color: Color.fromARGB(255, 47, 47, 47), fontSize: 25),
       decoration: InputDecoration(

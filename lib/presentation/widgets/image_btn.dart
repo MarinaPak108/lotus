@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
@@ -39,20 +40,20 @@ class MyImageBtn extends StatelessWidget {
               image: AssetImage(
                 link,
               ),
-              height: height * 5,
-              width: width * 2.5,
+              height: 200,
+              width: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(
-              height: height * 0.1,
-            ),
-            Text(
-              textAlign: TextAlign.center,
-              label,
-              style: TextStyle(fontSize: AppStyles.title1, color: Colors.white),
-            ),
-            SizedBox(
-              height: height * 0.1,
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                textAlign: TextAlign.center,
+                label,
+                style: GoogleFonts.lobster(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
           ],
         ),

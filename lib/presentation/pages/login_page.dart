@@ -70,7 +70,11 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MyInputField(label: 'имя', ctrl: _controller),
+              MyInputField(
+                label: 'имя',
+                ctrl: _controller,
+                isLatinOnly: true,
+              ),
               const SizedBox(
                 height: 10,
               ),

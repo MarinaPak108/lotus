@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class AppStyles {
+  //colors
   static const activeMainC = Color.fromARGB(255, 44, 179, 48);
   static const activeLightC = Colors.green;
   static const notActiveC = Color.fromRGBO(105, 105, 105, 1);
@@ -16,12 +17,9 @@ class AppStyles {
   static const borderLogoColor = Colors.white;
   static const backgroundLogoColor = Color.fromARGB(255, 112, 229, 221);
 
-  static const labelFontSize = 25;
-  static const inputInfoFontSize = 28;
-
   double height = global.globalHeight;
   double width = global.globalWidth;
-
+  //font sizes
   static double title1 = global.globalHeight * 0.4;
   static double text = global.globalHeight * 0.3;
 
@@ -35,8 +33,8 @@ class AppStyles {
     color: Colors.green,
   );
 
-  static final body = GoogleFonts.lato(
-    fontSize: 18,
+  static final logo = GoogleFonts.lato(
+    fontSize: global.globalHeight,
     fontWeight: FontWeight.w500,
     color: Color.fromARGB(255, 122, 188, 125),
   );

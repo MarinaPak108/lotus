@@ -41,7 +41,7 @@ class _MyPageState extends State<MyPage> {
           SizedBox(
             height: width * 0.1,
           ),
-          buildTap(),
+          Expanded(child: buildTap()),
         ],
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
