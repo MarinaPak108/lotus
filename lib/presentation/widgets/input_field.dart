@@ -1,9 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
-
-import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
 class MyInputField extends StatelessWidget {
   final String label;
@@ -25,7 +22,6 @@ class MyInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = global.globalHeight;
     return TextField(
       maxLines: lines,
       obscureText: isPwdVisible,

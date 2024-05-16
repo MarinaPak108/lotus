@@ -21,7 +21,6 @@ class MyImageBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = global.globalHeight;
-    double width = global.globalWidth;
     return Material(
       color: AppStyles.logoColor,
       elevation: height * 0.1,

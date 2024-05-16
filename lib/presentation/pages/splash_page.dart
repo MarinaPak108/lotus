@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sm_project/api/dto/doctor_dto.dart';
 import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/visitor_dto.dart';
-import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/pages/login_page.dart';
 
@@ -103,8 +102,7 @@ class _SplashState extends State<_Splash> {
         birthday: DateTime(1938, 11, 14)),
   ];
   String phraseOfTheDay =
-      '"Жизнь - это то, что с тобой происходит, пока ты строишь планы."';
-  String author = "Джон Леннон";
+      '"Жизнь - это то, что с тобой происходит, пока ты строишь планы."\nДжон Леннон';
 
   getLoggedInState() async {
     prefs = await SharedPreferences.getInstance();
@@ -207,38 +205,29 @@ class _SplashState extends State<_Splash> {
     global.doctors[2].patients = [global.visitors[1]];
     global.doctors[1].patients = [global.visitors[2]];
     return Scaffold(
-        body: SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height,
-            child: Stack(children: [
-              Image.asset(
-                'assets/img/splash.jpg',
-                fit: BoxFit.fitHeight,
-              ),
-              Shimmer.fromColors(
-                baseColor: Colors.white,
-                highlightColor: Colors.blueAccent,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      phraseOfTheDay,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lobster(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                    Text(
-                      author,
-                      style: GoogleFonts.lobster(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ])));
+        body: Container(
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/img/splash.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Center(
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Colors.blueAccent,
+          child: Text(
+            phraseOfTheDay,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.lobster(
+              color: Colors.white,
+              fontSize: 30,
+            ),
+          ),
+        ),
+      ),
+    ));
   }
 }
