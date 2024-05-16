@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sm_project/api/dto/doctor_dto.dart';
 import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/visitor_dto.dart';
+import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/pages/login_page.dart';
+
+import 'package:shimmer/shimmer.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 
@@ -98,6 +102,9 @@ class _SplashState extends State<_Splash> {
         fathersName: "Владиславовна",
         birthday: DateTime(1938, 11, 14)),
   ];
+  String phraseOfTheDay =
+      '"Жизнь - это то, что с тобой происходит, пока ты строишь планы."';
+  String author = "Джон Леннон";
 
   getLoggedInState() async {
     prefs = await SharedPreferences.getInstance();
@@ -117,7 +124,7 @@ class _SplashState extends State<_Splash> {
   void initState() {
     super.initState();
     getLoggedInState();
-    Future.delayed(const Duration(seconds: 2), _routeUser);
+    Future.delayed(const Duration(seconds: 4), _routeUser);
   }
 
   countYear(DateTime birthday) {
@@ -203,9 +210,35 @@ class _SplashState extends State<_Splash> {
         body: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height,
-            child: Image.asset(
-              'assets/img/splash.jpg',
-              fit: BoxFit.fitHeight,
-            )));
+            child: Stack(children: [
+              Image.asset(
+                'assets/img/splash.jpg',
+                fit: BoxFit.fitHeight,
+              ),
+              Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Colors.blueAccent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      phraseOfTheDay,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lobster(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    ),
+                    Text(
+                      author,
+                      style: GoogleFonts.lobster(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ])));
   }
 }
