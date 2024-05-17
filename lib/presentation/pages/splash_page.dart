@@ -122,7 +122,7 @@ class _SplashState extends State<_Splash> {
   void initState() {
     super.initState();
     getLoggedInState();
-    Future.delayed(const Duration(seconds: 4), _routeUser);
+    Future.delayed(const Duration(seconds: 10), _routeUser);
   }
 
   countYear(DateTime birthday) {
@@ -214,16 +214,20 @@ class _SplashState extends State<_Splash> {
           fit: BoxFit.cover,
         ),
       ),
-      child: Center(
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.blueAccent,
-          child: Text(
-            phraseOfTheDay,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.lobster(
-              color: Colors.white,
-              fontSize: 30,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.blueAccent,
+            child: Text(
+              phraseOfTheDay,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lobster(
+                color: Colors.white,
+                fontSize: 30,
+              ),
             ),
           ),
         ),
