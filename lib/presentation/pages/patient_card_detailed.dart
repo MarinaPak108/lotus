@@ -34,10 +34,16 @@ class PatientCardDetailsPage extends StatelessWidget {
             width: width * 7.5,
             child: MyCard(
                 fillWith: (visitor.getDoctors() == "")
-                    ? Text(
-                        "ФИО врача: \n${visitor.doctor!.surname}  ${visitor.doctor!.name}\nСпециализация: ${visitor.doctor!.field}",
-                        style: TextStyle(
-                            color: Colors.white, fontSize: width * 0.3),
+                    ? Row(
+                        children: [
+                          Text(
+                            "ФИО врача: \n${visitor.doctor!.surname}  ${visitor.doctor!.name}\nСпециализация: ${visitor.doctor!.field}",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: width * 0.3),
+                          ),
+                          const Spacer(),
+                          const Icon(Icons.update_sharp, color: Colors.white)
+                        ],
                       )
                     : Text("${visitor.getDoctors()}",
                         style: TextStyle(
@@ -54,12 +60,21 @@ class PatientCardDetailsPage extends StatelessWidget {
                 width: width * 7.5,
                 child: MyCard(
                     fillWith: (visitor.getResults() != 0)
-                        ? Text(
-                            "Формуляр заполнен",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: global.globalWidth * 0.3,
-                                fontWeight: FontWeight.w800),
+                        ? Row(
+                            children: [
+                              Text(
+                                "Формуляр заполнен",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: global.globalWidth * 0.3,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                              const Spacer(),
+                              const Icon(
+                                Icons.update_rounded,
+                                color: Colors.white,
+                              )
+                            ],
                           )
                         : Text(
                             "Формуляр еще не заполнен",
@@ -68,6 +83,7 @@ class PatientCardDetailsPage extends StatelessWidget {
                                 fontSize: global.globalWidth * 0.3),
                           )),
               ),
+              //recept
               SizedBox(
                 width: width * 7.5,
                 child: MyCard(
@@ -79,11 +95,25 @@ class PatientCardDetailsPage extends StatelessWidget {
                                 fontSize: global.globalWidth * 0.3,
                                 fontWeight: FontWeight.w800),
                           )
-                        : Text(
-                            "Рецепт: ${visitor.prescription}",
-                            style: TextStyle(
+                        : Row(
+                            children: [
+                              SizedBox(
+                                width: global.globalWidth * 5,
+                                child: Text(
+                                  "Рецепт: ${visitor.prescription}",
+                                  maxLines: 10,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: global.globalWidth * 0.3),
+                                ),
+                              ),
+                              const Spacer(),
+                              const Icon(
+                                Icons.update_rounded,
                                 color: Colors.white,
-                                fontSize: global.globalWidth * 0.3),
+                              )
+                            ],
                           )),
               ),
             ],
