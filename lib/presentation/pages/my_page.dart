@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sm_project/core/theme/app_styles.dart';
+import 'package:sm_project/api/dto/doctor_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
+import 'package:sm_project/presentation/pages/patient_card_detailed.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
 import 'package:sm_project/presentation/widgets/card.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
+import 'package:sm_project/presentation/widgets/tap_sctions.dart';
+import 'package:sm_project/presentation/widgets/tile.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -29,13 +33,15 @@ class _MyPageState extends State<MyPage> {
           MyCard(
               fillWith: SizedBox(
             width: width * 9,
-            child: Text("${global.userId}, welcome to LotusMedi App",
-                style: const TextStyle(color: Colors.white, fontSize: 30)),
+            child: Text("${global.userId},\n добро пожаловать в LotusMedi App",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white, fontSize: global.globalHeight * 0.6)),
           )),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: width * 0.1,
           ),
-          _tabSection(context),
+          Expanded(child: buildTap()),
         ],
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
@@ -43,44 +49,35 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
-Widget _tabSection(BuildContext context) {
-  return DefaultTabController(
-    length: 3,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const TabBar(
-          tabs: [
-            Tab(text: "Home"),
-            Tab(text: "Articles"),
-            Tab(text: "User"),
-          ],
-          indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: Colors.white,
-          labelColor: AppStyles.logoColor,
-          labelStyle: TextStyle(
-              color: AppStyles.logoColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold),
-          unselectedLabelStyle:
-              TextStyle(fontSize: 17, fontFamily: 'Family Name'),
-        ),
-        SizedBox(
-          //Add this to give height
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: TabBarView(children: [
-            Container(
-              child: Text("Home Body"),
-            ),
-            Container(
-              child: Text("Articles Body"),
-            ),
-            Container(
-              child: Text("User Body"),
-            ),
-          ]),
-        ),
-      ],
-    ),
-  );
-}
+Doctor doc1 = global.doctors[0];
+Doctor doc2 = global.doctors[1];
+Doctor doc3 = global.doctors[2];
+
+Widget buildTap() => MyTapSections(
+    text1: "${doc1.name}\n${doc1.surname}",
+    text2: "${doc2.name}\n${doc2.surname}",
+    text3: "${doc3.name}\n${doc3.surname}",
+    widget1: buildPosts(doc1.patients),
+    widget2: buildPosts(doc2.patients),
+    widget3: buildPosts(doc3.patients));
+
+Widget buildPosts(List<Visitor>? visits) => ListView.separated(
+    scrollDirection: Axis.vertical,
+    padding: const EdgeInsets.all(3),
+    itemCount: visits!.length,
+    separatorBuilder: (context, index) {
+      return const SizedBox(height: 1);
+    },
+    itemBuilder: (context, index) {
+      final visit = visits[index];
+      return MyTile(
+          icn: Icons.person_2_rounded,
+          color: visit.getColor(),
+          page: PatientCardDetailsPage(
+            visitor: visit,
+          ),
+          title: "${visit.surname} ${visit.name} ${visit.fathersName}",
+          subTitle:
+              "дата рождения:${visit.getBirthDate()}\nвозраст:${visit.age}",
+          actionIcn: Icons.navigate_next);
+    });

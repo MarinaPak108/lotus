@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
-import 'package:sm_project/presentation/pages/form_page.dart';
+import 'package:sm_project/presentation/pages/fillForm/chooseVisitor_page.dart';
 import 'package:sm_project/presentation/pages/my_page.dart';
-import 'package:sm_project/presentation/pages/patient_card.dart';
+import 'package:sm_project/presentation/pages/patient_card_detailed.dart';
 import 'package:sm_project/presentation/pages/patients_page.dart';
 import 'package:sm_project/presentation/pages/prescription_page.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
 import 'package:sm_project/presentation/widgets/bottom_navigation.dart';
-//check commit
+
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
 import 'package:sm_project/presentation/widgets/image_btn.dart';
 import 'package:sm_project/presentation/widgets/tile.dart';
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   late SharedPreferences prefs;
   String nameUser = "+++";
   Future<List<Post>> posts = getPosts();
+  List<Visitor> visitors = global.visitors;
 
   getName() async {
     prefs = await SharedPreferences.getInstance();
@@ -61,10 +63,10 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           SizedBox(
-            height: height * 4.5,
+            height: 300,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.all(height * 0.3),
+              padding: const EdgeInsets.all(13),
               itemCount: listLinks.length,
               separatorBuilder: (context, index) {
                 return SizedBox(width: height * 0.5);
@@ -86,8 +88,8 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      final posts = snapshot.data!;
-                      return buildPosts(posts);
+                      //final posts = snapshot.data!;
+                      return buildPosts(visitors);
                     } else {
                       return const Text('Not post data');
                     }
@@ -98,29 +100,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildPosts(List<Post> posts) => ListView.separated(
+//spisok pacientow
+  Widget buildPosts(List<Visitor> visits) => ListView.separated(
       scrollDirection: Axis.vertical,
       padding: const EdgeInsets.all(3),
-      itemCount: posts.length,
+      itemCount: visits.length,
       separatorBuilder: (context, index) {
         return const SizedBox(height: 1);
       },
       itemBuilder: (context, index) {
-        final pst = posts[index];
+        final visit = visits[index];
         return MyTile(
             icn: Icons.person_2_rounded,
-            page: PatientCardPage(
-              pst: pst,
+            color: visit.getColor(),
+            page: PatientCardDetailsPage(
+              visitor: visit,
             ),
-            title: pst.userId.toString(),
-            subTitle: pst.title,
+            title: "${visit.surname} ${visit.name} ${visit.fathersName}",
+            subTitle: "",
             actionIcn: Icons.navigate_next);
       });
 
   final List pageList = [
     const MyPage(),
     const PatientsPage(),
-    const FormPage(),
+    const ChooseVisitorPage(),
     const PrescriptionPage()
   ];
 
@@ -132,7 +136,12 @@ class _HomePageState extends State<HomePage> {
     "assets/img/fillForm.jpg",
     "assets/img/prescription.jpg"
   ];
-  final List listNames = ["MyRoom", 'WaitingLine', "Form", "prescription"];
+  final List listNames = [
+    "личный\nкабинет",
+    'список\nожидания',
+    "форма для\nзаполнения",
+    "рецепт"
+  ];
 
   Widget buildCard(int index) => Row(
         mainAxisSize: MainAxisSize.min,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/api/dto/answer_dto.dart';
+import 'package:sm_project/api/dto/formResults_dto.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:sm_project/api/dto/questionForm_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
@@ -21,28 +23,32 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   bool isButtonActive = false;
   final List<QuestionForm> _questions = [
-    QuestionForm(questionText: "Q1. Who created Flutter?", answers: [
-      Answer(id: 0, answer: 'Facebook'),
-      Answer(id: 1, answer: 'Adobe'),
-      Answer(id: 2, answer: 'Google'),
-      Answer(id: 3, answer: 'Microsoft')
+    QuestionForm(questionText: "Цель обращения", answers: [
+      Answer(id: 0, answer: 'обращение по поводу заболевания'),
+      Answer(id: 1, answer: 'профилактическая и иная'),
+      Answer(id: 2, answer: 'неотложная помощь'),
     ]),
-    QuestionForm(questionText: "Q2. What is Flutter?", answers: [
-      Answer(id: 4, answer: 'Android Development Kit'),
-      Answer(id: 5, answer: 'IOS Development Kit'),
-      Answer(id: 6, answer: 'Web Development Kit'),
-      Answer(id: 7, answer: 'Microsoft')
+    QuestionForm(questionText: "Вид обращения", answers: [
+      Answer(id: 4, answer: 'разовое посещение по поводу заболевания'),
+      Answer(id: 5, answer: 'диспансерное наблюдение'),
+      Answer(id: 6, answer: 'медосмотр'),
+      Answer(id: 7, answer: 'диспансеризация'),
+      Answer(id: 10, answer: "профосмотр"),
+      Answer(id: 11, answer: "посещение центра здоровья"),
+      Answer(id: 12, answer: "оформление медицинских документов и справок"),
+      Answer(id: 13, answer: "паллиативная помощь"),
+      Answer(id: 14, answer: "реабилитация"),
     ]),
-    QuestionForm(
-        questionText:
-            "Q5. Is Flutter for Web and Desktop available in stable version?",
-        answers: [
-          Answer(id: 8, answer: 'yes'),
-          Answer(id: 9, answer: 'no'),
-        ])
+    QuestionForm(questionText: "Уровень оказания медицинской помощи", answers: [
+      Answer(id: 8, answer: 'специализированный'),
+      Answer(id: 9, answer: 'территориальный'),
+      Answer(id: 15, answer: 'межмуниципальный'),
+    ])
   ];
   late List<bool> isChecked = List.filled(_questions.length, false);
   Future<List<Post>> posts = getPosts();
+  List<String>? questions;
+  List<String>? answers;
   @override
   void initState() {
     super.initState();
@@ -54,7 +60,7 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height / 10;
+    double height = global.globalHeight;
     bool isButtonActive = isChecked.every((e) => e == true);
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -80,7 +86,7 @@ class _FormPageState extends State<FormPage> {
                       children: [
                         Text(qst.questionText,
                             style: TextStyle(
-                                fontSize: height * 0.4,
+                                fontSize: height * 0.5,
                                 color: AppStyles.logoColor)),
                         const SizedBox(height: 5.0),
                         Column(
@@ -93,7 +99,7 @@ class _FormPageState extends State<FormPage> {
                               title: Text(
                                 qst.answers[idx].answer,
                                 style: TextStyle(
-                                  fontSize: height * 0.3,
+                                  fontSize: height * 0.4,
                                   color: AppStyles.logoComplimentaryColor2,
                                 ),
                               ),
@@ -105,6 +111,8 @@ class _FormPageState extends State<FormPage> {
                                   }
                                   qst.answers[idx].isSelected = value;
                                   isChecked[index] = true;
+                                  questions?.add(qst.questionText);
+                                  answers?.add(qst.answers[idx].answer);
                                 });
                               },
                             ),
@@ -117,11 +125,19 @@ class _FormPageState extends State<FormPage> {
         Padding(
           padding: EdgeInsets.all(height * 0.1),
           child: MyBtn(
-              name: "Send",
+              name: "Сохранить",
               onPressed: isButtonActive
                   ? () {
                       if (isButtonActive) {
                         global.navBottmBarIndex = 3;
+                        global.visitors[global.currentVisitor.id].results =
+                            FormResults(answer: answers, question: questions);
+                        global.currentVisitor = Visitor(
+                            id: -1,
+                            name: "",
+                            surname: "",
+                            fathersName: "",
+                            birthday: DateTime(0000, 00, 00));
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

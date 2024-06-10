@@ -39,7 +39,13 @@ class MyCheckBox extends StatelessWidget {
           child: Checkbox(
               value: value,
               activeColor: AppStyles.logoColor,
-              checkColor: AppStyles.notActiveDarkC,
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.resolveWith((states) {
+                if (!states.contains(MaterialState.selected)) {
+                  return AppStyles.borderLogoColor;
+                }
+                return null;
+              }),
               onChanged: onChanged),
         ), //Checkbox
       ], //<Widget>[]

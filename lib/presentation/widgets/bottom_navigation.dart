@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
-import 'package:sm_project/presentation/pages/form_page.dart';
+import 'package:sm_project/presentation/pages/fillForm/chooseVisitor_page.dart';
 import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/pages/my_page.dart';
 import 'package:sm_project/presentation/pages/patients_page.dart';
@@ -44,11 +44,13 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const PatientsPage()));
       case (3):
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const FormPage()));
-      case (4):
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const PrescriptionPage()));
+            MaterialPageRoute(builder: (context) => const ChooseVisitorPage()));
+      case (4):
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => (const PrescriptionPage())));
       default:
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
@@ -67,12 +69,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "мой кабинет"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "кабинет"),
         BottomNavigationBarItem(icon: Icon(Icons.people), label: "очередь"),
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "главная"),
         BottomNavigationBarItem(icon: Icon(Icons.addchart), label: "формуляр"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.edit_document), label: "выписка")
+            icon: Icon(Icons.edit_document), label: "рецепт")
       ],
     );
   }

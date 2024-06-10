@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 import 'package:sm_project/domain/global_var/global_settings.dart' as global;
@@ -19,7 +20,7 @@ class MyImageBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height / 10;
+    double height = global.globalHeight;
     return Material(
       color: AppStyles.logoColor,
       elevation: height * 0.1,
@@ -38,19 +39,20 @@ class MyImageBtn extends StatelessWidget {
               image: AssetImage(
                 link,
               ),
-              height: height * 3,
-              width: height * 3,
+              height: 200,
+              width: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(
-              height: height * 0.1,
-            ),
-            Text(
-              label,
-              style: const TextStyle(fontSize: 30, color: Colors.white),
-            ),
-            SizedBox(
-              height: height * 0.1,
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                textAlign: TextAlign.center,
+                label,
+                style: GoogleFonts.lobster(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
           ],
         ),

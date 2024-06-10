@@ -1,11 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sm_project/api/dto/post_dto.dart';
+import 'package:sm_project/api/dto/visitor_dto.dart';
 import 'package:sm_project/api/requests/post_requests.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
+import 'package:sm_project/presentation/pages/home_page.dart';
 import 'package:sm_project/presentation/widgets/app_bar.dart';
-import 'package:sm_project/presentation/widgets/card.dart';
+import 'package:sm_project/presentation/widgets/btn.dart';
+
+import 'package:sm_project/domain/global_var/global_settings.dart' as global;
+import 'package:sm_project/presentation/widgets/drop_box.dart';
+import 'package:sm_project/presentation/widgets/input_field.dart';
 
 import '../widgets/bottom_navigation.dart';
 
@@ -17,11 +21,26 @@ class PrescriptionPage extends StatefulWidget {
 }
 
 class _PrescriptionPageState extends State<PrescriptionPage> {
-  Post? _selectedPost;
+  bool isActive = false;
+  Visitor? _selectedPost;
   Future<List<Post>> posts = getPosts();
+  final _controller = TextEditingController();
+  //get only visitors with filled form and no prespription
+  Iterable<Visitor> visitors = global.visitors.where(
+      (element) => element.prescription == null && element.results != null);
   @override
   void initState() {
     super.initState();
+    _controller.addListener(() {
+      final isActive = _controller.text.isNotEmpty;
+      setState(() => this.isActive = isActive);
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   static Future<List<Post>> getPosts() async {
@@ -49,8 +68,16 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               } else if (snapshot.hasData) {
-                final posts = snapshot.data!;
-                return buildDropBox(posts, height);
+                //final posts = snapshot.data!;
+                return MyDropDownMenu(
+                  selectedPost: _selectedPost,
+                  visitors: visitors,
+                  onChanged: (Visitor? newValue) {
+                    setState(() {
+                      _selectedPost = newValue!;
+                    });
+                  },
+                );
               } else {
                 return const Text('Not post data');
               }
@@ -65,62 +92,34 @@ class _PrescriptionPageState extends State<PrescriptionPage> {
             } else {
               return Expanded(
                 child: SingleChildScrollView(
-                  child: MyCard(
-                      fillWith: Text(
-                    _selectedPost!.body,
-                    style: TextStyle(
-                      fontSize: height * 0.4,
-                      color: Colors.white,
-                    ),
-                  )),
-                ),
+                    child: Padding(
+                  padding: EdgeInsets.all(height * 0.1),
+                  child: MyInputField(
+                    label: "Рецепт",
+                    lines: 7,
+                    ctrl: _controller,
+                  ),
+                )),
               );
             }
-          })
+          }),
+          Padding(
+            padding: EdgeInsets.all(height * 0.1),
+            child: MyBtn(
+                name: "Завершить",
+                onPressed: isActive
+                    ? () {
+                        _selectedPost?.prescription = _controller.text;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()));
+                      }
+                    : null),
+          ),
         ],
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
-
-  Widget buildDropBox(List<Post> posts, double height) => Container(
-        padding: EdgeInsets.all(height * 0.3),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(height * 0.4),
-            border: Border.all(
-                color: AppStyles.logoComplimentaryColor2,
-                style: BorderStyle.solid,
-                width: height * 0.05)),
-        child: DropdownButton<Post>(
-          menuMaxHeight: height * 5,
-          isExpanded: true,
-          //isDense: true,
-          hint: const Text('Choose'),
-          value: _selectedPost,
-          icon: const Icon(
-            Icons.arrow_drop_down_rounded,
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: const TextStyle(
-            color: Colors.deepPurple,
-          ),
-          onChanged: (Post? newValue) {
-            setState(() {
-              _selectedPost = newValue!;
-            });
-          },
-          items: posts.map<DropdownMenuItem<Post>>((Post value) {
-            return DropdownMenuItem<Post>(
-              value: value,
-              child: Text(
-                "${value.id}_${value.title}",
-                maxLines: 2,
-                style: TextStyle(fontSize: height * 0.2),
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          }).toList(),
-        ),
-      );
 }

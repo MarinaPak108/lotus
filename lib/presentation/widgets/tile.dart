@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sm_project/core/theme/app_styles.dart';
 
 class MyTile extends StatelessWidget {
@@ -7,6 +9,7 @@ class MyTile extends StatelessWidget {
   final String title;
   final String subTitle;
   final IconData actionIcn;
+  final Color color;
 
   const MyTile(
       {Key? key,
@@ -14,7 +17,8 @@ class MyTile extends StatelessWidget {
       required this.page,
       required this.title,
       required this.subTitle,
-      required this.actionIcn})
+      required this.actionIcn,
+      this.color = Colors.white})
       : super(key: key);
 
   @override
@@ -36,18 +40,23 @@ class MyTile extends StatelessWidget {
             children: [
               Icon(
                 icn,
-                size: height * 0.5,
-                color: Colors.white,
+                size: width,
+                color: color,
               ),
               SizedBox(
-                width: height * 0.1,
+                width: width * 0.1,
               ),
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: height * 0.3,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              SizedBox(
+                width: width * 6.2,
+                child: Text(
+                  title,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: height * 0.25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -55,11 +64,12 @@ class MyTile extends StatelessWidget {
           subtitle: Row(
             children: [
               SizedBox(
-                width: width * 1,
+                width: width * 2,
               ),
               Expanded(
                 child: Text(
                   subTitle,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: height * 0.2,
                       fontWeight: FontWeight.w700,

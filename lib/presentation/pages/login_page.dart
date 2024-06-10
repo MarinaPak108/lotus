@@ -15,10 +15,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isPwdVisible = false;
+  bool? canSign = false;
   bool? stayLogged = false;
-  bool isButtonActive = true;
+  bool isButtonActive = false;
   Future<Gender?>? gender;
   final _controller = TextEditingController();
+  final _controllerPwd = TextEditingController();
   late SharedPreferences prefs;
 
   Future<void> saveAsLogged(bool? stayLoggedUser, String name) async {
@@ -40,27 +43,56 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      final isButtonActive = _controller.text.isNotEmpty;
+      final isButtonActive =
+          _controller.text.isNotEmpty && _controllerPwd.text.isNotEmpty;
       setState(() => this.isButtonActive = isButtonActive);
     });
+    _controllerPwd.addListener(() {
+      final isButtonActive =
+          _controller.text.isNotEmpty && _controllerPwd.text.isNotEmpty;
+      setState(() => this.isButtonActive = isButtonActive);
+    });
+    isPwdVisible = true;
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _controllerPwd.dispose();
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) => Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(global.globalHeight * 0.5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MyInputField(label: 'имя', ctrl: _controller),
+              MyInputField(
+                label: 'имя',
+                ctrl: _controller,
+                isLatinOnly: true,
+              ),
               const SizedBox(
-                height: 16,
+                height: 10,
+              ),
+              MyInputField(
+                label: 'пароль',
+                ctrl: _controllerPwd,
+                isPwdVisible: isPwdVisible,
+                icn: IconButton(
+                  icon: Icon(
+                      isPwdVisible ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(
+                      () {
+                        isPwdVisible = !isPwdVisible;
+                      },
+                    );
+                  },
+                ),
               ),
               FutureBuilder<Gender?>(
                 future: gender,
@@ -71,9 +103,16 @@ class _LoginPageState extends State<LoginPage> {
                     return Container();
                   } else {
                     if (snapshot.hasData) {
-                      return buildDataWidget(context, snapshot);
+                      if (snapshot.data!.gender == 'male') {
+                        return const Text(
+                          "Неверный пароль или логин. Попробуйте еще раз или обратитесь к админестратору.",
+                          style: TextStyle(color: Colors.red),
+                        );
+                      } else {
+                        canSign = true;
+                        return buildDataWidget(context, snapshot);
+                      }
                     } else if (snapshot.hasError) {
-                      print(snapshot.error);
                       return Text("${snapshot.error}");
                     } else {
                       return Container();
@@ -82,13 +121,13 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
               const SizedBox(
-                height: 16,
+                height: 10,
               ),
               MyBtn(
                 name: "Ввести имя",
                 onPressed: isButtonActive
                     ? () {
-                        if (stayLogged!) {
+                        if (stayLogged! && canSign!) {
                           saveAsLogged(stayLogged, _controller.text);
                           global.navBottmBarIndex = 3;
                           Navigator.pushReplacement(
@@ -102,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                     : null,
               ),
               const SizedBox(
-                height: 16,
+                height: 10,
               ),
               MyCheckBox(
                 value: stayLogged,
@@ -122,17 +161,16 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           RichText(
-            text: TextSpan(
-              text: snapshot.data.name,
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                const TextSpan(text: ' is '),
-                TextSpan(
-                    text: snapshot.data.gender,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
+              text: TextSpan(
+            text: snapshot.data.name,
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              const TextSpan(text: ' is '),
+              TextSpan(
+                  text: snapshot.data.gender,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+            ],
+          )),
         ],
       );
 }
