@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:sm_project/api/dto/post_dto.dart';
 import 'package:http/http.dart' as http;
+import 'package:sm_project/api/requests/apis.dart';
 
 class PostRequest {
   Future<Post> getPost(int id) async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts/$id");
+    final uri = Uri.parse("${Apis.post_api_url}/$id");
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -16,7 +17,7 @@ class PostRequest {
   }
 
   Future<List<Post>> getPosts() async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final uri = Uri.parse(Apis.post_api_url);
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
