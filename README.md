@@ -1,16 +1,10 @@
-# sm_project
+# Lotus Project (Mobile Version)
+The Lotus Mobile Electronic Health Record (EHR) System is designed to assist healthcare professionals, including assistants and doctors, in streamlining and automating key tasks related to patient care and hospital administration.
 
-A new Flutter project.
+## Current Features:
+- Patient Data Management: Securely save, update, and retrieve patient information to ensure accuracy and ease of access during treatment.
 
-## Getting Started
+- Secure Communication: Facilitate encrypted messaging between assistants and doctors for efficient collaboration, especially regarding prescriptions and treatment updates.
 
-This project is a starting point for a Flutter application.
+- Real-Time Patient Monitoring: Display the current stage of a patient's treatment, allowing healthcare professionals to track progress and make informed decisions.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
